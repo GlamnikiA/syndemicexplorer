@@ -85,5 +85,38 @@ export default {
                 res.sendStatus(500)
             }
         }
+    },
+
+    async getAreaCode1(req, res) {
+        let query = `select distinct area1_code from socio_economic`
+        try {
+            let data = await Pool.query(query)
+            res.send(data.rows)
+        } catch (e) {
+            console.error(e)
+            res.sendStatus(500)
+        }
+    },
+
+    async getAreaCode2(req, res) {
+        let query = `select distinct area2_code from socio_economic`
+        try {
+            let data = await Pool.query(query)
+            res.send(data.rows)
+        } catch (e) {
+            console.error(e)
+            res.sendStatus(500)
+        }
+    },
+
+    async getAreaCode3(req, res) {
+        let query = `select distinct area3_code from socio_economic`
+        try {
+            let data = await Pool.query(query)
+            res.send(data.rows)
+        } catch (e) {
+            console.error(e)
+            res.sendStatus(500)
+        }
     }
 }
