@@ -3,7 +3,7 @@ mapboxgl.accessToken =
 
 const map = new mapboxgl.Map({
   container: 'map',
-  style: 'mapbox://styles/joelsven/ckw29pxch04ls14p4lndhhfjf',
+  style: 'mapbox://styles/mapbox/light-v10',
   center: [-5.0, 52.47],
   zoom: 1,
 });
@@ -21,12 +21,14 @@ var popup = new mapboxgl.Popup({
   closeButton: false,
 });
 map.on('load', function () {
-  // Add the source to query. In this example we're using
-  // county polygons uploaded as vector tiles
   map.addSource('heatmap', {
-    type: 'vector',
-    url: 'joelsven.ckw12tb6k0wmv24qalr4bd9d0-5dzee',
+    type: 'geojson',
+    data: "../../heatmap/heatmap.json",
   });
+
+  //TODO
+  //kom åt våra properties med koden som redan finns, använd mouse-move för det
+  //beroende på confirmed ändra färg och storlek
 
   map.on('mousemove', 'heatmap', function (e) {
     // Change the cursor style as a UI indicator.
