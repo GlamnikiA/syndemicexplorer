@@ -17,13 +17,16 @@ const setBoundingBox = (bound1, bound2) => {
   map.fitBounds(bounds);
 };
 
+const url = document.currentScript.src;
+let dataurl = url.substring(0, url.indexOf("src") - 1) + "/heatmap/heatmap.geojson";
+
 var popup = new mapboxgl.Popup({
   closeButton: false,
 });
 map.on('load', function () {
   map.addSource('heatmap', {
     type: 'geojson',
-    data: "../../heatmap/heatmap.json",
+    data: dataurl,
   });
 
   //TODO
