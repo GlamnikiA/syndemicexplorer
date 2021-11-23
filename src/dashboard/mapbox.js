@@ -3,7 +3,7 @@ mapboxgl.accessToken =
 
 const map = new mapboxgl.Map({
   container: 'map',
-  style: 'mapbox://styles/mapbox/light-v10',
+  style: 'mapbox://styles/joelsven/ckw29pxch04ls14p4lndhhfjf',
   center: [-5.0, 52.47],
   zoom: 1,
 });
@@ -18,7 +18,7 @@ const setBoundingBox = (bound1, bound2) => {
 };
 
 const url = document.currentScript.src;
-let dataurl = url.substring(0, url.indexOf("src") - 1) + "/heatmap/heatmap.geojson";
+let dataurl = url.substring(0, url.indexOf("src")) + "heatmap/heatmap.geojson";
 
 var popup = new mapboxgl.Popup({
   closeButton: false,
