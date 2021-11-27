@@ -33,7 +33,7 @@ dropdown4.addEventListener('click', function (event) {
 
 const dropDownContent1 = document.querySelector('.dropContent1');
 const level1Text = document.getElementById('level1Text');
-const urlLevel1 = 'http://localhost:5000/api/v1/maps/countrynames';
+const urlLevel1 = 'http://localhost:3000/api/v1/maps/countrynames';
 
 async function fillDropDown1() {
   await fetch(urlLevel1)
@@ -70,7 +70,7 @@ async function fillDropDown1() {
 
 const dropDownContent2 = document.querySelector('.dropContent2');
 const level2Text = document.getElementById('level2Text');
-const urlLevel2 = 'http://localhost:5000/api/v1/maps/admareas1?countryCode=SWE';
+const urlLevel2 = 'http://localhost:3000/api/v1/maps/admareas1?countryCode=SWE';
 
 const refreshMap = () => {
   state.length - 1;
@@ -111,7 +111,7 @@ function fillDropDown2() {
 const dropDownContent3 = document.querySelector('.dropContent3');
 const level3Text = document.getElementById('level3Text');
 const urlLevel3 =
-  'http://localhost:5000/api/v1/maps/admareas2?area1Code=SWE.13_1';
+  'http://localhost:3000/api/v1/maps/admareas2?area1Code=SWE.13_1';
 function fillDropDown3() {
   fetch(urlLevel3)
     .then(function (response) {
@@ -149,7 +149,7 @@ function fillDropDown3() {
 const dropDownContent4 = document.querySelector('.dropContent4');
 const level4Text = document.getElementById('level4Text');
 const urlLevel4 =
-  'http://localhost:5000/api/v1/maps/admareas3?area2Code=SWE.13.19_1';
+  'http://localhost:3000/api/v1/maps/admareas3?area2Code=SWE.13.19_1';
 
 function fillDropDown4() {
   fetch(urlLevel4)
@@ -190,7 +190,7 @@ function fillDropDown4() {
 }
 
 function fillCompareWith(param) {
-  const compareUrl = `http://localhost:5000/api/v1/maps/${param}`;
+  const compareUrl = `http://localhost:3000/api/v1/maps/${param}`;
   console.log(compareUrl);
   fetch(compareUrl)
     .then(function (response) {
@@ -287,7 +287,7 @@ confirmedOption.addEventListener('click', function () {
 });
 
 const fillStartDates = async () => {
-  const apiUrl = `http://localhost:5000/api/v1/epidemiology/admareas3?area3Code=${state.area3_code}`;
+  const apiUrl = `http://localhost:3000/api/v1/epidemiology/admareas3?area3Code=${state.area3_code}`;
   console.log(apiUrl);
   await fetch(apiUrl)
     .then(function (response) {
@@ -310,7 +310,7 @@ const fillStartDates = async () => {
     });
 };
 const fillEndDates = () => {
-  const apiUrl = `http://localhost:5000/api/v1/epidemiology/admareas3?area3Code=${state.area3_code}`;
+  const apiUrl = `http://localhost:3000/api/v1/epidemiology/admareas3?area3Code=${state.area3_code}`;
   console.log(apiUrl);
   fetch(apiUrl)
     .then(function (response) {

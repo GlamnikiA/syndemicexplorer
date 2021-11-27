@@ -5,9 +5,34 @@ let dateLabel = [],
   placeLabel = [],
   deathsLabel = [];
 
+// let gradient = ctx.createLinearGradient(0, 0, 0, 400);
+// gradient.addColorStop(0, 'rgba(58,123, 213, 1');
+// gradient.addColorStop(1, 'rgba(0,210, 255, 0.1)');
+
 let delayed;
 let chart;
 let options = {
+  animation: {
+    onComplete: () => {
+      delayed = true;
+    },
+    delay: (context) => {
+      let delay = 0;
+      if (context.type === 'data' && context.mode === 'default' && !delayed) {
+        delay = context.dataIndex * 300 + context.datasetIndex * 100;
+      }
+      return delay;
+    },
+  },
+  scales: {
+    x: {
+      stacked: true,
+    },
+    y: {
+      stacked: true,
+    },
+  },
+
   transitions: {
     show: {
       animations: {
@@ -67,11 +92,11 @@ async function confirmedCasesChart(param) {
   console.log('KALLAS DENNA?');
 
   const newDataset = {
-    label: 'Confirmed cases ' + placeLabel,
-    backgroundColor: randomColor(),
-    borderColor: '#fff',
+    label: placeLabel,
+    // backgroundColor: randomColor(),
+    borderColor: randomColor(),
     data: confirmedLabel,
-    fill: true,
+    fill: false,
     radius: 3,
     hitRadius: 10,
     hoverRadius: 5,
@@ -89,7 +114,7 @@ async function confirmedCasesChart(param) {
 
 //Fetches the data of area2Code depending on which dropdown menu value
 async function confirmedCasesData(param) {
-  const apiUrl = `http://localhost:5000/api/v1/epidemiology/${param}`;
+  const apiUrl = `http://localhost:3000/api/v1/epidemiology/${param}`;
   console.log('urlen ' + apiUrl);
   const response = await fetch(apiUrl);
   const barChartData = await response.json();
@@ -135,7 +160,7 @@ async function deathsConfirmedChart(param) {
 }
 
 async function deathsConfirmedData(param) {
-  const apiUrl = `http://localhost:5000/api/v1/epidemiology/${param}`;
+  const apiUrl = `http://localhost:3000/api/v1/epidemiology/${param}`;
   const response = await fetch(apiUrl);
   const barChartData = await response.json();
   // if (barChartData.length == 0) {
@@ -157,11 +182,11 @@ async function compareDataConfirmedChart(param) {
   await compareDataConfirmedData(param);
 
   const newDataset = {
-    label: 'Confirmed cases ' + placeLabel,
-    backgroundColor: randomColor(),
-    borderColor: '#fff',
+    label: placeLabel,
+    // backgroundColor: randomColor(),
+    borderColor: randomColor(),
     data: comparedConfirmedLabel,
-    fill: true,
+    fill: false,
     radius: 3,
     hitRadius: 10,
     hoverRadius: 5,
@@ -174,14 +199,14 @@ async function compareDataConfirmedChart(param) {
 }
 
 async function compareDataConfirmedData(param) {
-  const apiUrl = `http://localhost:5000/api/v1/epidemiology/${param}`;
+  const apiUrl = `http://localhost:3000/api/v1/epidemiology/${param}`;
   console.log(apiUrl);
   const response = await fetch(apiUrl);
   const barChartData = await response.json();
   // if (barChartData.length == 0) {
   //   modal.classList.add('is-active');
   // }
-  console.log(barChartData);
+  // console.log(barChartData);
 
   const confirmed2 = barChartData.map((x) => x.confirmed);
   console.log(confirmed2);
