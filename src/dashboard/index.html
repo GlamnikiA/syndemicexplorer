@@ -14,9 +14,6 @@
   />
   
   <!-- Graphs -->
-
-
-
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
@@ -54,7 +51,6 @@
         <div class="navbar-start">
           <div class="navbar-item">
             Syndemic Explorer
-  
           </div>
         </div>
       </div>
@@ -71,6 +67,7 @@
       </div>
     </div>
     </div>
+
     <!-- Level 2 -->
     <div class="dropdown" id="level2">
       <div class="navbar-item has-dropdown is-hoverable">
@@ -93,6 +90,7 @@
       </div>
     </div>
     </div>
+
     <!-- Level 4 -->
     <div class="dropdown" id="level4">
       <div class="navbar-item has-dropdown is-hoverable">
@@ -106,28 +104,34 @@
   </nav>
 
    <!-- Main body with columns -->
-
   <div class ="container">
     <div class="columns">
     <div class="column mt-6">
+      
+
       <!-- Information about the map and size, rounded corners -->
-      <div class="container containerMiddle" id='map' style='width: 100%; height: 500px;'></div>
-      
-      
+      <div class="container containerMiddle" id='map' style='width: 100%; height: 500px;'></div> 
       <div class="dropdown" id="compareWithDropdown">
       <a class="navbar-link" id="compareWithText">Compare with</a>
       <div class="dropdown-menu" id="dropdown-compareMenu" role="menu">
         <div class="dropdown-content compareWithDropContent">
         </div>
       </div>
-      </div>
     </div>
-      <!-- Button and statistic for the country -->
     
-      <div class="column">
 
+         <!-- Button and total cases for the country -->
+        <div class="container mr-2 mb-10">
+          <div class="dropdown" id="level1">
+            <a class="navbar-link" id="level1Text">Socioeconomic</a>
+            <div class="dropdown-trigger">
+            </div>
+          </div>
+     
+   
+      <!-- Button and statistic for the country -->
+      <div class="column">
       <div class="container mr-2 mb-2">
-       
           <div class="dropdown" id="statisticEpidem">
             <div class="navbar-item has-dropdown">
             <a class="navbar-link" id="stats1">Epidemiology</a>
@@ -140,43 +144,16 @@
             </div>
           </div>
           </div>
-          <div class="dropdown" id="dropStartDate">
-            <div class="navbar-item has-dropdown">
-              <a class="navbar-link" id="startDateText">Start Date</a>
-   
-            <div class="dropdown-menu" id="dropdown-menuStartDate" role="menu">
-              <div class="dropdown-content dropContentStartDate">
-                
+          <label>From:
+              <input type="date" name="data-target" min="2017-04-01" max="2021-04-30">
+          <label>To:
+            <input type="date" name="data-target" min="2017-04-01" max="2021-11-30">
+          </label>
               </div>
             </div>
           </div>
-          </div>
-          <div class="dropdown" id="dropEndDate">
-            <div class="navbar-item has-dropdown">
-              <a class="navbar-link" id="endDateText">End Date</a>   
-            <div class="dropdown-menu" id="dropdown-menuEndDate" role="menu">
-              <div class="dropdown-content dropContentEndDate">
-                
-              </div>
-            </div>
-          </div>
-          </div>
-
         <div class="chartAreaWrapper" id='chartArea' style="width:100%; height:100%;">
-          <canvas id="myChart"></canvas>
-
-        </div>
-      </div>
-
-      <!-- Button and total cases for the country -->
-      
-        
-        <div class="container mr-2 mb-10">
-          <div class="dropdown" id="level1">
-            <a class="navbar-link" id="level1Text">Socioeconomic</a>
-            <div class="dropdown-trigger">
-            </div>
-          </div>
+          <canvas id="myChart"></canvas> 
           <div class="chartAreaWrapper2" id='chartArea2' style="width:100%"></div>
             <canvas id="chart2"></canvas>
           </div>
