@@ -339,19 +339,58 @@ const fillEndDates = () => {
       });
     });
 };
-const dropDownContentStartDate = document.querySelector(
-  '.dropContentStartDate'
-);
-const dropStartDateText = document.getElementById('startDateText');
-const dropStartDate = document.getElementById('dropStartDate');
-dropStartDate.addEventListener('click', function () {
-  dropStartDate.classList.toggle('is-active');
-  fillStartDates();
+// const dropDownContentStartDate = document.querySelector(
+//   '.dropContentStartDate'
+// );
+// const dropStartDateText = document.getElementById('startDateText');
+// const dropStartDate = document.getElementById('dropStartDate');
+// dropStartDate.addEventListener('click', function () {
+//   dropStartDate.classList.toggle('is-active');
+//   fillStartDates();
+// });
+// const dropDownContentEndDate = document.querySelector('.dropContentEndDate');
+// const dropEndDateText = document.getElementById('endDateText');
+// const dropEndDate = document.getElementById('dropEndDate');
+// dropEndDate.addEventListener('click', function () {
+//   dropEndDate.classList.toggle('is-active');
+//   fillEndDates();
+// });
+
+// $('#submit').on('submit', function () {
+//   var date = new Date($('#startDate').val());
+//   var day = date.getDate();
+//   var month = date.getMonth() + 1;
+//   var year = date.getFullYear();
+//   startDate = [day, month, year].join('/');
+// });
+
+// $('#submit').on('submit', function () {
+//   var date = new Date($('#endDate').val());
+//   var day = date.getDate();
+//   var month = date.getMonth() + 1;
+//   var year = date.getFullYear();
+//   endDate = [day, month, year].join('/');
+
+// });
+const dateButton = document.getElementById('dateButton');
+dateButton.addEventListener('click', function () {
+  console.log('CLICKED');
+  getValuesFromDates();
+
+  confirmedCasesChart(
+    'admareas3?area3Code=' +
+      state.area3_code +
+      '&startDate=' +
+      startDate +
+      '&endDate=' +
+      endDate
+  );
+
+  console.log(startDate);
+  console.log(endDate);
 });
-const dropDownContentEndDate = document.querySelector('.dropContentEndDate');
-const dropEndDateText = document.getElementById('endDateText');
-const dropEndDate = document.getElementById('dropEndDate');
-dropEndDate.addEventListener('click', function () {
-  dropEndDate.classList.toggle('is-active');
-  fillEndDates();
-});
+
+const getValuesFromDates = () => {
+  startDate = document.getElementById('startDate').value;
+  endDate = document.getElementById('endDate').value;
+};
