@@ -33,7 +33,7 @@ dropdown4.addEventListener('click', function (event) {
 
 const dropDownContent1 = document.querySelector('.dropContent1');
 const level1Text = document.getElementById('level1Text');
-const urlLevel1 = 'http://localhost:5000/api/v1/maps/countrynames';
+const urlLevel1 = 'http://localhost:3000/api/v1/maps/countrynames';
 
 async function fillDropDown1() {
   await fetch(urlLevel1)
@@ -41,7 +41,7 @@ async function fillDropDown1() {
       return response.json();
     })
     .then(function (myJson) {
-      console.log(myJson);
+      // console.log(myJson);
       myJson.forEach(function (myJson) {
         const level1 = document.createElement('a');
         level1.innerHTML = myJson.country_name;
@@ -49,9 +49,10 @@ async function fillDropDown1() {
         dropDownContent1.appendChild(level1);
         level1.addEventListener('click', function () {
           level1Text.innerHTML = myJson.country_name;
-          console.log(myJson);
+          // console.log(myJson);
           state = myJson.country_code;
-          console.log(state);
+          // console.log(state);
+
           deleteAndAddEpidemChart();
           deleteAndAddSocioChart();
           if (myJson.country_name === 'Sweden') {
@@ -72,26 +73,28 @@ async function fillDropDown1() {
 
 const dropDownContent2 = document.querySelector('.dropContent2');
 const level2Text = document.getElementById('level2Text');
-const urlLevel2 = `http://localhost:5000/api/v1/maps/admareas1?countryCode=${state}`;
+const urlLevel2 = `http://localhost:3000/api/v1/maps/admareas1?countryCode=${state}`;
 
 async function fillDropDown2() {
   await fetch(
-    `http://localhost:5000/api/v1/maps/admareas1?countryCode=${state}`
+    `http://localhost:3000/api/v1/maps/admareas1?countryCode=${state}`
   )
     .then(function (response) {
       return response.json();
     })
     .then(function (myJson) {
-      console.log(myJson);
+      // console.log(myJson);
+
       myJson.forEach(function (myJson) {
         const level2 = document.createElement('a');
+
         level2.addEventListener('click', function () {
           // mapContainer.remove();
           // const newMap = document.createElement('div');
           // newMap.setAttribute('class', 'container containerMiddle');
           // newMap.setAttribute('id', 'map');
-          // newMap.setAttribute('width', '100%');
-          // newMap.setAttribute('height', '500px');
+          // mapContainer.setAttribute('width', '50%');
+          // mapContainer.setAttribute('height', '500px');
 
           // console.log(newMap);
           // mapColumn.append(newMap);
@@ -102,8 +105,11 @@ async function fillDropDown2() {
           // mapContainer.remove();
           // document.getElementById('mapColumn').appendChild(mapContainer);
 
+          // mapColumn.setAttribute('width', '100%');
+          chartColumn.classList.remove('is-hidden');
+
           state = myJson.area1_code;
-          console.log(state);
+
           setBoundingBox(
             [myJson.bounding_box[0], myJson.bounding_box[1]],
             [myJson.bounding_box[2], myJson.bounding_box[3]]
@@ -127,9 +133,9 @@ async function fillDropDown2() {
 
 const dropDownContent3 = document.querySelector('.dropContent3');
 const level3Text = document.getElementById('level3Text');
-const urlLevel3 = `http://localhost:5000/api/v1/maps/admareas2?area1Code=${state}`;
+const urlLevel3 = `http://localhost:3000/api/v1/maps/admareas2?area1Code=${state}`;
 function fillDropDown3() {
-  fetch(`http://localhost:5000/api/v1/maps/admareas2?area1Code=${state}`)
+  fetch(`http://localhost:3000/api/v1/maps/admareas2?area1Code=${state}`)
     .then(function (response) {
       return response.json();
     })
@@ -171,11 +177,11 @@ function fillDropDown3() {
 
 const dropDownContent4 = document.querySelector('.dropContent4');
 const level4Text = document.getElementById('level4Text');
-const urlLevel4 = `http://localhost:5000/api/v1/maps/admareas3?area2Code=SWE.13.19_1${state}`;
+const urlLevel4 = `http://localhost:3000/api/v1/maps/admareas3?area2Code=SWE.13.19_1${state}`;
 
 function fillDropDown4() {
   fetch(
-    `http://localhost:5000/api/v1/maps/admareas3?area2Code=${state.area2_code}`
+    `http://localhost:3000/api/v1/maps/admareas3?area2Code=${state.area2_code}`
   )
     .then(function (response) {
       return response.json();
@@ -189,6 +195,7 @@ function fillDropDown4() {
           state = myJson;
           console.log(state);
           console.log(myJson);
+
           setBoundingBox(
             [myJson.bounding_box[0], myJson.bounding_box[1]],
             [myJson.bounding_box[2], myJson.bounding_box[3]]
@@ -217,7 +224,7 @@ function fillDropDown4() {
 }
 
 function fillCompareWith(param) {
-  const compareUrl = `http://localhost:5000/api/v1/maps/${param}`;
+  const compareUrl = `http://localhost:3000/api/v1/maps/${param}`;
   console.log(compareUrl);
   fetch(compareUrl)
     .then(function (response) {
@@ -376,6 +383,7 @@ const startDateInput = document.getElementById('startDate');
 const endDateInput = document.getElementById('endDate');
 
 const socioEconomDrop = document.getElementById('socioEconomDrop');
+const chartColumn = document.getElementById('chartColumn');
 
 const mapContainer = document.getElementById('map');
 const mapColumn = document.getElementById('mapColumn');

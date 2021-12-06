@@ -7,10 +7,11 @@ const map = new mapboxgl.Map({
   center: [-5.0, 52.47],
   zoom: 1,
 });
+
 map.on('load', function () {
   map.addSource('confirmedcases', {
     type: 'geojson',
-    data: 'http://localhost:5000/api/v1/heatmapdata',
+    data: 'http://localhost:3000/api/v1/heatmapdata',
   });
   map.addLayer(
     {
@@ -134,7 +135,7 @@ map.on('mousemove', 'confirmed-point', function (e) {
 const setBoundingBox = (bound1, bound2) => {
   let bounds = new mapboxgl.LngLatBounds(bound1, bound2);
 
-  console.log('hej' + bounds);
+  console.log('Här är bounding boxen: ' + bounds);
   map.fitBounds(bounds);
 };
 

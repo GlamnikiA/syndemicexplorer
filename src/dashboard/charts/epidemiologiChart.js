@@ -78,8 +78,8 @@ async function confirmedCasesChart(param) {
     tension: 0.3,
     opacity: 0.5,
   };
-  console.log(newDataset);
-  //console.log(comparedConfirmedLabel);
+  // console.log(newDataset);
+
   chart.data.datasets.push(newDataset);
   chart.data.labels = dateLabel;
   console.log(chart.data.datasets.length);
@@ -89,17 +89,17 @@ async function confirmedCasesChart(param) {
 
 //Fetches the data of area2Code depending on which dropdown menu value
 async function confirmedCasesData(param) {
-  const apiUrl = `http://localhost:5000/api/v1/epidemiology/${param}`;
+  const apiUrl = `http://localhost:3000/api/v1/epidemiology/${param}`;
   console.log('urlen ' + apiUrl);
   const response = await fetch(apiUrl);
   const barChartData = await response.json();
   // if (barChartData.length == 0) {
   //   modal.classList.add('is-active');
   // }
-  console.log(barChartData);
+  // console.log(barChartData);
 
   const confirmed = barChartData.map((x) => x.confirmed);
-  console.log(confirmed);
+  // console.log(confirmed);
   const date = barChartData.map((x) => x.date.slice(0, 10));
   let place;
   if (barChartData[0].area3_name) {
@@ -112,8 +112,8 @@ async function confirmedCasesData(param) {
   confirmedLabel = confirmed;
   placeLabel = place;
   dateLabel = date;
-  console.log(dateLabel);
-  console.log(confirmedLabel);
+  // console.log(dateLabel);
+  // console.log(confirmedLabel);
 }
 
 async function deathsConfirmedChart(param) {
@@ -137,7 +137,7 @@ async function deathsConfirmedChart(param) {
 }
 
 async function deathsConfirmedData(param) {
-  const apiUrl = `http://localhost:5000/api/v1/epidemiology/${param}`;
+  const apiUrl = `http://localhost:3000/api/v1/epidemiology/${param}`;
   const response = await fetch(apiUrl);
   const barChartData = await response.json();
   // if (barChartData.length == 0) {
@@ -176,7 +176,7 @@ async function compareDataConfirmedChart(param) {
 }
 
 async function compareDataConfirmedData(param) {
-  const apiUrl = `http://localhost:5000/api/v1/epidemiology/${param}`;
+  const apiUrl = `http://localhost:3000/api/v1/epidemiology/${param}`;
   console.log(apiUrl);
   const response = await fetch(apiUrl);
   const barChartData = await response.json();
