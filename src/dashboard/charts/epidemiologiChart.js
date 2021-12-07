@@ -68,15 +68,15 @@ async function confirmedCasesChart(param) {
 
   const newDataset = {
     label: placeLabel,
-    backgroundColor: color,
-    borderColor: '#fff',
+    // backgroundColor: randomColor(),
+    borderColor: color,
     data: confirmedLabel,
     fill: false,
-    radius: 2,
+    radius: 1,
     hitRadius: 5,
-    hoverRadius: 5,
+    hoverRadius: 3,
     tension: 0.3,
-    // opacity: 0.5,
+    opacity: 0.5,
   };
   // console.log(newDataset);
 
@@ -160,14 +160,15 @@ async function compareDataConfirmedChart(param) {
 
   const newDataset = {
     label: placeLabel,
-    backgroundColor: randomColor(),
-    borderColor: '#fff',
+    // backgroundColor: randomColor(),
+    borderColor: randomColor(),
     data: comparedConfirmedLabel,
     fill: false,
     radius: 2,
     hitRadius: 5,
     hoverRadius: 5,
     tension: 0.3,
+    opacity: 0.5,
   };
   console.log(comparedConfirmedLabel);
   chart.data.datasets.push(newDataset);
