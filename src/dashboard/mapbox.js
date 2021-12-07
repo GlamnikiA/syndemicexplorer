@@ -132,11 +132,11 @@ map.on('mousemove', 'confirmed-point', function (e) {
 
 // const nav = new mapboxgl.NavigationControl();
 // map.addControl(nav);
-const setBoundingBox = (bound1, bound2) => {
+const setBoundingBox = async (bound1, bound2) => {
   let bounds = new mapboxgl.LngLatBounds(bound1, bound2);
 
   console.log('Här är bounding boxen: ' + bounds);
-  map.fitBounds(bounds);
+  await map.fitBounds(bounds);
 };
 
 var popup = new mapboxgl.Popup({

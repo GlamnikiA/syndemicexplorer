@@ -1,4 +1,5 @@
 let chartSocio;
+let color = {};
 let optionsSocio = {
   scales: {},
 
@@ -67,7 +68,7 @@ async function populationSocioChart(param) {
       datasets: [
         {
           label: 'Population ' + placeLabel,
-          backgroundColor: gradient,
+          backgroundColor: color,
           borderColor: '#fff',
           pointBackgroundColor: 'rgb(189,195,199)',
           data: populationLabel,
@@ -145,6 +146,6 @@ async function comparePopulationSocioChart(param) {
 
 function randomColor() {
   var r = () => (Math.random() * 256) >> 0;
-  var color = `rgb(${r()}, ${r()}, ${r()})`;
+  color = `rgb(${r()}, ${r()}, ${r()})`;
   return color;
 }
