@@ -1,5 +1,6 @@
 'use strict';
 const dropdown1 = document.getElementById('level1');
+const epidemChartDiv = document.getElementById('myChart');
 
 let state = {};
 let startDate = {};
@@ -41,7 +42,7 @@ dropdown4.addEventListener('click', function (event) {
 
 const dropDownContent1 = document.querySelector('.dropContent1');
 const level1Text = document.getElementById('level1Text');
-const urlLevel1 = 'http://localhost:5000/api/v1/maps/countrynames';
+const urlLevel1 = 'http://localhost:3000/api/v1/maps/countrynames';
 
 async function fillDropDown1() {
   await fetch(urlLevel1)
@@ -84,7 +85,7 @@ const level2Text = document.getElementById('level2Text');
 
 async function fillDropDown2() {
   await fetch(
-    `http://localhost:5000/api/v1/maps/admareas1?countryCode=${state}`
+    `http://localhost:3000/api/v1/maps/admareas1?countryCode=${state}`
   )
     .then(function (response) {
       return response.json();
@@ -129,6 +130,7 @@ async function fillDropDown2() {
           );
 
           dropdownEpidem.classList.remove('is-hidden');
+
           deleteAndAddEpidemChart();
           createEpidemChart();
 
@@ -145,9 +147,9 @@ async function fillDropDown2() {
 
 const dropDownContent3 = document.querySelector('.dropContent3');
 const level3Text = document.getElementById('level3Text');
-const urlLevel3 = `http://localhost:5000/api/v1/maps/admareas2?area1Code=${state}`;
+const urlLevel3 = `http://localhost:3000/api/v1/maps/admareas2?area1Code=${state}`;
 function fillDropDown3() {
-  fetch(`http://localhost:5000/api/v1/maps/admareas2?area1Code=${state}`)
+  fetch(`http://localhost:3000/api/v1/maps/admareas2?area1Code=${state}`)
     .then(function (response) {
       return response.json();
     })
@@ -208,11 +210,11 @@ function fillDropDown3() {
 
 const dropDownContent4 = document.querySelector('.dropContent4');
 const level4Text = document.getElementById('level4Text');
-const urlLevel4 = `http://localhost:5000/api/v1/maps/admareas3?area2Code=SWE.13.19_1${state}`;
+const urlLevel4 = `http://localhost:3000/api/v1/maps/admareas3?area2Code=SWE.13.19_1${state}`;
 
 async function fillDropDown4() {
   await fetch(
-    `http://localhost:5000/api/v1/maps/admareas3?area2Code=${state.area2_code}`
+    `http://localhost:3000/api/v1/maps/admareas3?area2Code=${state.area2_code}`
   )
     .then(function (response) {
       return response.json();
@@ -274,7 +276,7 @@ async function fillDropDown4() {
 }
 
 async function fillCompareWith(param) {
-  const compareUrl = `http://localhost:5000/api/v1/maps/${param}`;
+  const compareUrl = `http://localhost:3000/api/v1/maps/${param}`;
   console.log(compareUrl);
   await fetch(compareUrl)
     .then(function (response) {

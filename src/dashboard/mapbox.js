@@ -36,7 +36,7 @@ map.on('load', () => {
 map.on('load', function () {
   map.addSource('confirmedcases', {
     type: 'geojson',
-    data: 'http://localhost:5000/api/v1/heatmapdata?level=1&countryCode=SWE&date=2021-11-22&indicator=confirmed',
+    data: 'http://localhost:3000/api/v1/heatmapdata?level=1&countryCode=SWE&date=2021-11-22&indicator=confirmed',
   });
 
   map.addLayer(
@@ -144,7 +144,7 @@ map.on('load', function () {
 const showHeatMapForSelectedLevel = (param) => {
   let data = {};
 
-  data = `http://localhost:5000/api/v1/heatmapdata?${param}`;
+  data = `http://localhost:3000/api/v1/heatmapdata?${param}`;
 
   console.log(data);
 

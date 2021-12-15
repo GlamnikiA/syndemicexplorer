@@ -53,7 +53,7 @@ async function compareDisposableIncomeChart(param) {
 }
 
 async function compareDisposableIncomeData(param) {
-  const apiUrl = `http://localhost:5000/api/v1/socio_economics/${param}`;
+  const apiUrl = `http://localhost:3000/api/v1/socio_economics/${param}`;
   console.log(apiUrl);
   const response = await fetch(apiUrl);
   const barChartData = await response.json();
@@ -71,7 +71,7 @@ async function compareDisposableIncomeData(param) {
 }
 
 async function disposableIncomeSocioData(param) {
-  const apiUrl = `http://localhost:5000/api/v1/socio_economics/${param}`;
+  const apiUrl = `http://localhost:3000/api/v1/socio_economics/${param}`;
   console.log(apiUrl);
   const response = await fetch(apiUrl);
   const barChartData = await response.json();
@@ -134,7 +134,7 @@ async function educationalLevelSocioChart(param) {
   chartSocio.update();
 }
 async function educationalLevelSocioData(param) {
-  const apiUrl = `http://localhost:5000/api/v1/socio_economics/${param}`;
+  const apiUrl = `http://localhost:3000/api/v1/socio_economics/${param}`;
   console.log(apiUrl);
   const response = await fetch(apiUrl);
   const barChartData = await response.json();
@@ -169,7 +169,7 @@ async function compareEducationalLevelChart(param) {
   chartSocio.update();
 }
 async function compareEducationalLevelData(param) {
-  const apiUrl = `http://localhost:5000/api/v1/socio_economics/${param}`;
+  const apiUrl = `http://localhost:3000/api/v1/socio_economics/${param}`;
   console.log(apiUrl);
   const response = await fetch(apiUrl);
   const barChartData = await response.json();
@@ -206,7 +206,7 @@ async function foreignBackgroundSocioChart(param) {
   chartSocio.update();
 }
 async function foreignBackgroundSocioData(param) {
-  const apiUrl = `http://localhost:5000/api/v1/socio_economics/${param}`;
+  const apiUrl = `http://localhost:3000/api/v1/socio_economics/${param}`;
   console.log(apiUrl);
   const response = await fetch(apiUrl);
   const barChartData = await response.json();
@@ -256,7 +256,7 @@ async function populationSocioChart(param) {
 }
 
 async function populationSocioData(param) {
-  const apiUrl = `http://localhost:5000/api/v1/socio_economics/${param}`;
+  const apiUrl = `http://localhost:3000/api/v1/socio_economics/${param}`;
   console.log(apiUrl);
   const response = await fetch(apiUrl);
   const barChartData = await response.json();
@@ -278,7 +278,7 @@ async function populationSocioData(param) {
   console.log(xAxisLabel);
 }
 async function compareForeignBackgroundData(param) {
-  const apiUrl = `http://localhost:5000/api/v1/socio_economics/${param}`;
+  const apiUrl = `http://localhost:3000/api/v1/socio_economics/${param}`;
   console.log(apiUrl);
   const response = await fetch(apiUrl);
   const barChartData = await response.json();
@@ -308,7 +308,7 @@ async function compareForeignBackgroundChart(param) {
   chartSocio.update();
 }
 async function comparePopulationSocioData(param) {
-  const apiUrl = `http://localhost:5000/api/v1/socio_economics/${param}`;
+  const apiUrl = `http://localhost:3000/api/v1/socio_economics/${param}`;
   console.log(apiUrl);
   const response = await fetch(apiUrl);
   const barChartData = await response.json();
@@ -359,4 +359,7 @@ var colorArray = [
   'rgba(209, 35, 26, 0.33)',
   'rgba(0, 141, 56, 0.33)',
   'rgba(141, 108, 0, 0.33)',
+  'rgba(41, 24, 109, 0.5)',
+  'rgba(254, 108, 67, 0.5)',
+  'rgba(13, 186, 85, 0.5)',
 ];
