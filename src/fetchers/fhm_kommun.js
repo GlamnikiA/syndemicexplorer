@@ -144,7 +144,7 @@ export default function () {
           for (var i = 0; i < response.data.features.length; i++) {
             let featureAttribute = response.data.features[i].attributes
 
-            let KnNamn = fixNamingDiffKommun(featureAttribute.KnNamn)
+            let KnNamn = fixNamingDiff(featureAttribute.KnNamn)
             let adm_area = await getAdmArea(KnNamn, featureAttribute.Stadsdel)
             if (adm_area == null)
               continue;
@@ -164,17 +164,31 @@ export default function () {
   }
 }
 
-function getEpidemiologyTable(week, year, adm_area) {
+function getEpidemiologyTableWithDate(date, adm_area) {
   //source, country_code, area1_code and area2_code are hardcoded for now
   if (adm_area.area1_code == null) {
     console.error("adm_area in getEpidemiologyTable is missing an area1 code!")
     return;
   }
 
-  let gid = adm_area.gid;
+  return {
+    table: "epidemiology",
+    source: "SCB",
+    date: date,
+    country_code: "SWE",
+    area1_code: adm_area.area1_code,
+    area2_code: adm_area.area2_code,
+    area3_code: adm_area.area3_code,
+    gid: determineGid(adm_area)
+  }
+}
 
-  if (gid == undefined)
-    gid = (adm_area.area3_code != null) ? adm_area.area3_code : adm_area.area2_code
+function getEpidemiologyTable(week, year, adm_area) {
+  //source, country_code, area1_code and area2_code are hardcoded for now
+  if (adm_area.area1_code == null) {
+    console.error("adm_area in getEpidemiologyTable is missing an area1 code!")
+    return;
+  }
 
   return {
     table: "epidemiology",
@@ -184,8 +198,17 @@ function getEpidemiologyTable(week, year, adm_area) {
     area1_code: adm_area.area1_code,
     area2_code: adm_area.area2_code,
     area3_code: adm_area.area3_code,
-    gid: gid
+    gid: determineGid(adm_area)
   }
+}
+
+function determineGid(adm_area) {
+  let gid = adm_area.gid;
+
+  if (gid == undefined)
+    gid = (adm_area.area3_code != null) ? adm_area.area3_code : adm_area.area2_code
+
+  return gid
 }
 
 async function getAdmArea(kommunNamn, stadsdel) {
@@ -251,7 +274,7 @@ function insertFromCSV(url) {
         let KnNamn = dataArray[i][0].replace(/"/g, '')
         let deaths = dataArray[i][1]
 
-        KnNamn = fixNamingDiffKommun(KnNamn)
+        KnNamn = fixNamingDiff(KnNamn)
 
         if (deaths == undefined || deaths.length == 1)
           deaths = 0;
@@ -278,56 +301,78 @@ function insertFromCSV(url) {
     })
 }
 
+/**
+ * Gets and inserts dead and hospitalized_icu data for many dates into the epidemiology table in the database
+ */
 function getDataFromApify() {
   (async () => {
-    // Run the actor and wait for it to finish
-    // console.log("Beginning connection to tugkan/covid-se!")
-    const run = await apifyClient.actor("tugkan/covid-se").call(input)
+    let databaseDates = await getPoolQuery("SELECT DISTINCT date FROM epidemiology WHERE dead IS NULL OR hospitalized_icu IS NULL")
+    databaseDates = databaseDates.rows
+    console.log("Found " + databaseDates.length + " dates in which one or more regions are missing dead or hospitalized icu!")
 
-    // Fetch and print actor results from the run's dataset (if any)
+    for (let i = 0; i < databaseDates.length; i++)
+      databaseDates[i] = databaseDates[i].date.toLocaleDateString()
+
     const {
       items
-    } = await apifyClient.dataset(run.defaultDatasetId).listItems()
+    } = await apifyClient.dataset("Nq3XwHX262iDwsFJS").listItems()
 
-    let resultArray = items[0].infectedByRegion
-    // console.log("Beginning inserting deaths! Resultarray is: " + resultArray)
+    for (let index = 0; index < items.length; index++) {
+      let resultArray = items[index].infectedByRegion
+      let date = new Date(items[index].lastUpdatedAtApify)
 
-    //Insert deaths and icu into table
-    for (let i = 0; i < resultArray.length; i++) {
-      let item = resultArray[i]
-      let region = item.region;
-
-      let adm_area = await getPoolQuery("SELECT area1_code, gid FROM admin_areas WHERE country_code = 'SWE' AND level = '2' AND area1_name = $1 AND area2_name IS NULL", [region])
-      adm_area = adm_area.rows[0];
-      if (adm_area == null) {
-        console.log("No admin area found for " + region)
-        continue;
+      if (!databaseDates.includes(date.toLocaleDateString())) {
+        console.log("No date matching " + date.toLocaleDateString() + " found in db! Skipping entry!")
+        continue
       }
 
-      var epidemiology_data = getEpidemiologyTable(currentOrLastWeek(), new Date().getFullYear(), adm_area)
+      for (let i = 0; i < resultArray.length; i++) {
+        let item = resultArray[i]
+        let region = fixNamingDiff(item.region, true);
 
-      if (epidemiology_data == undefined) {
-        console.log("epidemiology_data for " + region + " is undefined!")
-        continue;
+        if (region === "Sörmland" || region === "Jämtland Härjedalen")
+          continue
+
+        let adm_area = await getPoolQuery("SELECT area1_code, gid FROM admin_areas WHERE country_code = 'SWE' AND level = '2' AND area1_name = $1 AND area2_name IS NULL", [region])
+        adm_area = adm_area.rows[0];
+        if (adm_area == null) {
+          console.log("No admin area found for " + region)
+          continue;
+        }
+
+        var epidemiology_data = getEpidemiologyTableWithDate(date, adm_area)
+
+        if (epidemiology_data == undefined) {
+          console.log("epidemiology_data for " + region + " is undefined!")
+          continue;
+        }
+
+        epidemiology_data = Object.assign({
+          "dead": item.deathCount,
+          "hospitalized_icu": item.intensiveCareCount
+        }, epidemiology_data)
+
+        // console.log("Inserting " + epidemiology_data)
+
+        await upsertTimeseries(epidemiology_data)
       }
-
-      epidemiology_data = Object.assign({
-        "dead": item.deathCount,
-        "hospitalized_icu": item.intensiveCareCount
-      }, epidemiology_data)
-
-      await upsertTimeseries(epidemiology_data)
     }
-    // console.log("Finished inserting new data!")
   })();
 }
 
-function fixNamingDiffKommun(KnNamn) {
-  if (KnNamn !== "Upplands-Väsby" && KnNamn.includes("Upplands") && KnNamn.includes("Väsby"))
-    KnNamn = "Upplands-Väsby" //# Fix naming difference between FHM and OxCOVID19 database
-  else if (KnNamn !== "Malung" && KnNamn.includes("Malung") && KnNamn.includes("Sälen"))
-    KnNamn = "Malung"
-  return KnNamn
+function fixNamingDiff(Name, isRegional) {
+  if (isRegional) {
+    if (Name !== "Orebro" && Name.includes("Örebro"))
+      Name = "Orebro"
+  }
+  else {
+    if (Name !== "Upplands-Väsby" && Name.includes("Upplands") && Name.includes("Väsby"))
+      Name = "Upplands-Väsby" //# Fix naming difference between FHM and OxCOVID19 database
+    else if (Name !== "Malung" && Name.includes("Malung") && Name.includes("Sälen"))
+      Name = "Malung"
+  }
+
+  return Name
 }
 
 setApifyClient(); //Also gets the data if successfull
